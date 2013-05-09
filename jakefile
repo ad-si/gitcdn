@@ -1,0 +1,223 @@
+var libs = require("./libs.json"),
+	http = require('http'),
+	https = require('https'),
+	fs = require('fs'),
+	url = require('url'),
+	winston = require('winston'),
+	request = require('request'),
+	ProgressBar = require('progress')
+
+var myLevels = {
+		info: 0,
+		success: 1,
+		warn: 2,
+		error: 3
+	},
+	myColors = {
+		info: 'grey',
+		success: 'green',
+		warn: 'yellow',
+		error: 'red'
+	}
+
+var con = new winston.Logger({
+	transports: [
+		new winston.transports.Console({colorize: true})
+	],
+	levels: myLevels,
+	colors: myColors
+})
+
+task('findLibs', [], function() {
+
+	libs.forEach(function(lib) {
+
+		var folderName = lib.name.toLowerCase().replace(' ', '-')//,
+		//fileName = lib.file.substr(lib.file.lastIndexOf("/") + 1),
+		//minName = lib.min.substr(lib.file.lastIndexOf("/") + 1)
+
+
+		for(var a = 0; a < 3; a++) {
+			for(var b = 0; b < 10; b++) {
+				for(var c = 0; c < 10; c++) {
+
+					(function() {
+
+						var version = a + "." + b + "." + c,
+							path = lib.file.replace(/\{\{version\}\}/g, version),
+							options = url.parse(path, true),
+							protocol = (/https:\/\//i.test(path)) ? "https" : "http"
+
+
+						options.method = "HEAD"
+
+
+						if(protocol == "https") {
+
+							var req1 = https.request(options, function(res) {
+
+								if(res.statusCode == 200) {
+
+									con.log("success", res.req.path + ' is available')
+
+									jake.mkdirP(folderName + "/" + version)
+
+									https.get(path, function(res) {
+										res.pipe(fs.createWriteStream(folderName + "/" + version + "/index.js"))
+
+										con.log("success", "Downloaded: " + folderName + version)
+									})
+
+
+								} else {
+
+									con.log("warn", "Error " + res.statusCode + ": " + res.req.path)
+								}
+							})
+
+							req1.on('error', function(e) {
+								con.log("error", 'ERROR: ' + e.message)
+							})
+
+							req1.end()
+
+						} else {
+
+							var req2 = http.request(options, function(res) {
+
+								if(res.statusCode == 200) {
+
+									con.log("success", res.req.path + ' is available')
+
+									jake.mkdirP(folderName + "/" + version)
+
+									https.get(path, function(res) {
+										res.pipe(fs.createWriteStream(folderName + "/" + version + "/index.js"))
+
+										con.log("success", "Downloaded: " + folderName + version)
+									})
+
+
+								} else {
+
+									con.log("warn", "Error " + res.statusCode + ": " + res.req.path)
+								}
+							})
+
+							req2.on('error', function(e) {
+								con.log("error", 'ERROR: ' + e.message)
+							})
+
+							req2.end()
+						}
+
+
+					}())
+				}
+			}
+		}
+
+	})
+
+})
+
+
+task('default', [], function() {
+
+	libs.forEach(function(lib) {
+
+		if(lib.name == "underscore" || lib.name == "backbone") {
+
+			var folderName = lib.name.toLowerCase().replace(' ', '-')//,
+			//fileName = lib.file.substr(lib.file.lastIndexOf("/") + 1),
+			//minName = lib.min.substr(lib.file.lastIndexOf("/") + 1)
+
+			jake.mkdirP(folderName)
+
+			con.log("info", "Created folder: " + folderName);
+
+
+			for(var a = 0; a < 3; a++) {
+				for(var b = 0; b < 10; b++) {
+					for(var c = 0; c < 10; c++) {
+
+						(function() {
+
+							var version = a + "." + b + "." + c,
+							//var version = "1.9.1",
+								path = lib.file.replace(/\{\{version\}\}/g, version),
+								options = url.parse(path, true),
+								protocol = (/https:\/\//i.test(path)) ? "https" : "http"
+
+
+							options.method = "HEAD"
+
+
+							if(protocol == "https") {
+
+								var req1 = https.request(options, function(res) {
+
+									if(res.statusCode == 200) {
+
+										con.log("success", res.req.path + ' is available')
+
+										jake.mkdirP(folderName + "/" + version)
+
+										https.get(path, function(res) {
+											res.pipe(fs.createWriteStream(folderName + "/" + version + "/index.js"))
+
+											con.log("success", "Downloaded: " + folderName + version)
+										})
+
+
+									} else {
+
+										con.log("warn", "Error " + res.statusCode + ": " + res.req.path)
+									}
+								})
+
+								req1.on('error', function(e) {
+									con.log("error", 'ERROR: ' + e.message)
+								})
+
+								req1.end()
+
+							} else {
+
+								var req2 = http.request(options, function(res) {
+
+									if(res.statusCode == 200) {
+
+										con.log("success", res.req.path + ' is available')
+
+										jake.mkdirP(folderName + "/" + version)
+
+										https.get(path, function(res) {
+											res.pipe(fs.createWriteStream(folderName + "/" + version + "/index.js"))
+
+											con.log("success", "Downloaded: " + folderName + version)
+										})
+
+
+									} else {
+
+										con.log("warn", "Error " + res.statusCode + ": " + res.req.path)
+									}
+								})
+
+								req2.on('error', function(e) {
+									con.log("error", 'ERROR: ' + e.message)
+								})
+
+								req2.end()
+							}
+
+
+						}())
+					}
+				}
+			}
+		}
+
+	})
+})

@@ -1,0 +1,22 @@
+[
+	{
+		"name": "jQuery",
+		"file": "http://code.jquery.com/jquery-{{version}}.js",
+		"min": "http://code.jquery.com/jquery-{{version}}.min.js"
+	},
+	{
+		"name": "jQuery Mobile",
+		"file": "http://code.jquery.com/mobile/{{version}}/jquery.mobile-{{version}}.js",
+		"min": "http://code.jquery.com/mobile/{{version}}/jquery.mobile-{{version}}.min.js"
+	},
+	{
+		"name": "backbone",
+		"file": "https://raw.github.com/documentcloud/backbone/{{version}}/backbone.js",
+		"min": "https://raw.github.com/documentcloud/backbone/{{version}}/backbone-min.js"
+	},
+	{
+		"name": "underscore",
+		"file": "https://raw.github.com/documentcloud/underscore/{{version}}/underscore.js",
+		"min": "https://raw.github.com/documentcloud/underscore/{{version}}/underscore-min.js"
+	}
+]
