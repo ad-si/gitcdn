@@ -11,12 +11,12 @@
 	},
 	{
 		"name": "backbone",
-		"file": "https://raw.github.com/documentcloud/backbone/{{version}}/backbone.js",
-		"min": "https://raw.github.com/documentcloud/backbone/{{version}}/backbone-min.js"
+		"file": "https://raw.github.com/jashkenas/backbone/{{version}}/backbone.js",
+		"min": "https://raw.github.com/jashkenas/backbone/{{version}}/backbone-min.js"
 	},
 	{
 		"name": "underscore",
-		"file": "https://raw.github.com/documentcloud/underscore/{{version}}/underscore.js",
-		"min": "https://raw.github.com/documentcloud/underscore/{{version}}/underscore-min.js"
+		"file": "https://raw.github.com/jashkenas/underscore/{{version}}/underscore.js",
+		"min": "https://raw.github.com/jashkenas/underscore/{{version}}/underscore-min.js"
 	}
 ]
